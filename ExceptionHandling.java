@@ -1,13 +1,12 @@
 import java.util.Scanner;
 
-// Step 1: Custom Exception Class
 class InvalidAgeException extends Exception
  {
     public InvalidAgeException(String message) {
         super(message);
     }
 }
-// Step 2: Main class
+
 public class ExceptionHandling {
     public static void main(String[] args) {
 

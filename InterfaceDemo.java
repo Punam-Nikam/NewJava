@@ -1,0 +1,106 @@
+interface Tax {
+    double calculateTax(double price);
+}
+
+
+class PurchaseDetails implements Tax {
+
+    private String purchaseId;
+    private String paymentType;
+    private double taxPercentage;
+
+    public PurchaseDetails(String purchaseId, String paymentType) {
+        this.purchaseId  = purchaseId;
+        this.paymentType = paymentType;
+    }
+
+    public String getPurchaseId()     
+    { 
+        return purchaseId;
+        }
+    public String getPaymentType()    {
+        return paymentType; 
+    }
+    public double getTaxPercentage()  {
+        return taxPercentage; 
+    }
+
+    public void setPurchaseId(String purchaseId)          { 
+        this.purchaseId = purchaseId; 
+    }
+    public void setPaymentType(String paymentType)        { 
+        this.paymentType = paymentType; 
+    }
+    public void setTaxPercentage(double taxPercentage)    { 
+        this.taxPercentage = taxPercentage; 
+    }
+
+  
+    @Override
+    public double calculateTax(double price) {
+        if (paymentType.equals("Debit Card")) {
+            taxPercentage = 2;
+        } else if (paymentType.equals("Credit Card")) {
+            taxPercentage = 3;
+        } else {
+            taxPercentage = 4;
+        }
+        return price + (price * taxPercentage / 100);
+    }
+}
+
+
+class Seller implements Tax {
+
+    private String location;
+    private double taxPercentage;
+
+    
+    public Seller(String location) {
+        this.location = location;
+    }
+
+
+    public String getLocation()       { return location; }
+    public double getTaxPercentage()  { return taxPercentage; }
+
+    
+    public void setLocation(String location)           { this.location = location; }
+    public void setTaxPercentage(double taxPercentage) { this.taxPercentage = taxPercentage; }
+
+
+    @Override
+    public double calculateTax(double price) {
+        return calculateTaxSeller(price);
+    }
+
+    
+    public double calculateTaxSeller(double price) {
+        if (location.equals("Middle east")) {
+            taxPercentage = 15;
+        } else if (location.equals("Europe")) {
+            taxPercentage = 25;
+        } else if (location.equals("Canada")) {
+            taxPercentage = 22;
+        } else if (location.equals("Japan")) {
+            taxPercentage = 12;
+        }
+        return price * taxPercentage / 100;
+    }
+}
+
+class InterfaceDemo {
+    public static void main(String args[]) {
+		System.out.println("Purchase Details\n***************");
+		PurchaseDetails purchaseDetails = new PurchaseDetails("P1001","Credit Card");
+		System.out.println("Total purchase amount: " + Math.round(purchaseDetails.calculateTax(100)*100)/100.0);
+		System.out.println("Tax percentage: "+purchaseDetails.getTaxPercentage());
+
+        System.out.println("Seller Details\n***************");
+		Seller seller = new Seller("Japan");
+		System.out.println("Tax to be paid by the seller: " + Math.round(seller.calculateTaxSeller(100)*100)/100.0);
+		System.out.println("Tax percentage: "+seller.getTaxPercentage());
+		
+	
+	}
+}
